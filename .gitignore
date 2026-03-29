@@ -1,0 +1,20 @@
+# Claude / AI agents
+CLAUDE.md
+AGENTS.md
+
+# Local
+.DS_Store
+*.local
+*.log*
+
+# Dist
+node_modules
+dist/
+
+# Profile
+.rspack-profile-*/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
