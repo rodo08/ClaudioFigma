@@ -3,9 +3,9 @@ import './components/streamer-card';
 import { StreamerCard } from './components/streamer-card';
 
 import logo   from './assets/logorod.svg';
-import img1   from './assets/img1.png';
-import img2   from './assets/img2.png';
-import img3   from './assets/img3.png';
+import img1   from './assets/img1.webp';
+import img2   from './assets/img2.webp';
+import img3   from './assets/img3.webp';
 
 import { sheet as figmaSheet } from './components/streamer-card/stylesFigma';
 import { sheet as neonSheet  } from './components/streamer-card/stylesNeon';
