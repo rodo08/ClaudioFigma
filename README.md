@@ -2,6 +2,24 @@
 
 A streamer/influencer profile card built as a native Web Component with Shadow DOM, Constructable Stylesheets, and custom events. No framework, no dependencies.
 
+## Table of contents
+
+- [Stack](#stack)
+- [Context: from Figma to code without a design system](#context-from-figma-to-code-without-a-design-system)
+- [Components](#components)
+- [`<streamer-card>` attributes](#streamer-card-attributes)
+- [Usage](#usage)
+- [Dev setup](#dev-setup)
+- [Bidirectional flow: Claude Code ↔ Figma](#bidirectional-flow-claude-code--figma)
+  - [Recommended flow: Figma → Code first](#recommended-flow-figma--code-first)
+  - [Use case: sending code structure to Figma](#use-case-sending-code-structure-to-figma)
+  - [Flow optimisation](#flow-optimisation)
+- [Claude interaction lessons](#claude-interaction-lessons)
+- [Conclusions](#conclusions)
+- [Evaluation: bringing the Figma design into code](#evaluation-bringing-the-figma-design-into-code)
+
+---
+
 ## Stack
 
 - **Web Components** — Custom Elements + Shadow DOM
