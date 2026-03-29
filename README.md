@@ -4,6 +4,7 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 
 ## Table of contents
 
+- [Demo](#demo)
 - [Stack](#stack)
 - [Context: from Figma to code without a design system](#context-from-figma-to-code-without-a-design-system)
 - [Components](#components)
@@ -17,6 +18,20 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 - [Claude interaction lessons](#claude-interaction-lessons)
 - [Conclusions](#conclusions)
 - [Evaluation: bringing the Figma design into code](#evaluation-bringing-the-figma-design-into-code)
+
+---
+
+## Demo
+
+<!-- Add demo videos here. Suggested structure:
+
+### ❌ Fail case — [short description]
+[video or gif]
+
+### ✅ Success case — [short description]
+[video or gif]
+
+-->
 
 ---
 
