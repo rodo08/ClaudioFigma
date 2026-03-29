@@ -11,34 +11,34 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 
 ---
 
-## Contexto: de Figma al código sin design system
+## Context: from Figma to code without a design system
 
-### La casuística
+### The scenario
 
-Un caso habitual en el trabajo diario: un concept de Figma sin design system definido que debe maquetarse para web. Sin tokens, sin nomenclatura sistemática, sin variables exportables — solo frames, estilos locales y criterio de diseñador.
+A common situation in day-to-day work: a Figma concept with no defined design system that needs to be implemented for web. No tokens, no systematic naming, no exportable variables — just frames, local styles, and designer judgment.
 
-### Primera iteración: Claude como maquetador directo
+### First iteration: Claude as direct developer
 
-En la iteración inicial se intentó que Claude Code generara el HTML/CSS directamente desde la descripción del diseño en Figma. El resultado fue un **consumo altísimo de tokens con una precisión muy baja**: Claude interpretaba el diseño de forma aproximada, proponiéndose correcciones sucesivas que acumulaban más tokens sin converger al diseño original.
+In the initial iteration, Claude Code was asked to generate HTML/CSS directly from the Figma design description. The result was an **extremely high token consumption with very low precision**: Claude interpreted the design approximately, proposing successive corrections that accumulated more tokens without converging to the original design.
 
-### Solución: maquetación híbrida
+### Solution: hybrid implementation
 
-El enfoque que funcionó fue un flujo híbrido donde el rol de cada parte se asigna según la naturaleza de la tarea:
+The approach that worked was a hybrid flow where each party's role is assigned based on the nature of the task:
 
 ```
-Claude propone
+Claude proposes
   ↓
-Developer evalúa la precisión y prolijidad del resultado
+Developer evaluates the precision and quality of the result
   ↓
-  ├── Alta precisión → se acepta
-  ├── Ajuste puntual → developer corrige manualmente
-  └── Tarea clara y acotada → se delega a Claude Code
+  ├── High precision → accepted
+  ├── Minor adjustment → developer corrects manually
+  └── Clear and bounded task → delegated to Claude Code
 ```
 
-- **Claude Code** se usa para tareas bien delimitadas: cambiar un valor concreto, refactorizar un patrón, generar estructura repetitiva.
-- **El developer ajusta manualmente** cuando la tarea requiere criterio visual fino que Claude no puede inferir solo desde el código.
+- **Claude Code** is used for well-defined tasks: changing a specific value, refactoring a pattern, generating repetitive structure.
+- **The developer adjusts manually** when the task requires fine visual judgment that Claude cannot infer from code alone.
 
-Este flujo híbrido fue el que permitió montar el diseño original de Figma con fidelidad, sin sobreconsumo de tokens y manteniendo el control sobre las decisiones visuales.
+This hybrid flow was what allowed the original Figma design to be implemented faithfully, without over-consuming tokens and while maintaining control over visual decisions.
 
 ---
 
@@ -137,167 +137,167 @@ bun run preview # preview production build
 
 ---
 
-## Flujo bidireccional Claude Code ↔ Figma
+## Bidirectional flow: Claude Code ↔ Figma
 
-Este proyecto está diseñado para integrarse con Figma mediante el MCP `claude-talk-to-figma-mcp`.
+This project is designed to integrate with Figma via the `claude-talk-to-figma-mcp` MCP.
 
-### Flujo recomendado: Figma → Código primero
+### Recommended flow: Figma → Code first
 
-El punto de partida correcto es **traer el diseño de Figma al código**, no al revés. Esto garantiza que el código refleje fielmente las decisiones de diseño y que las sincronizaciones futuras sean predecibles.
+The correct starting point is **bringing the Figma design into code**, not the other way around. This ensures the code faithfully reflects design decisions and that future synchronisations are predictable.
 
 ```
-Figma (diseño fuente de verdad)
-  ↓  leer variables, colores, tipografía, espaciado
+Figma (design source of truth)
+  ↓  read variables, colours, typography, spacing
 Claude Code
-  ↓  traducir tokens al CSS de los componentes
-Código (reflejo del diseño)
-  ↓  cambios de código → sincronizar de vuelta a Figma
-Figma (actualizado)
+  ↓  translate tokens to component CSS
+Code (reflection of the design)
+  ↓  code changes → sync back to Figma
+Figma (updated)
 ```
 
-1. **Figma → Código**: Claude lee el diseño en Figma (variables, estilos, nodos) y actualiza los estilos del Web Component para que coincidan.
-2. **Código → Figma**: Cuando se hace un ajuste en el código, se le indica a Claude el archivo, las líneas afectadas y qué cambió — Claude actualiza el nodo correspondiente en Figma sin releer todo el árbol.
+1. **Figma → Code**: Claude reads the design in Figma (variables, styles, nodes) and updates the Web Component styles to match.
+2. **Code → Figma**: When an adjustment is made in code, Claude is told the file, the affected lines and what changed — Claude updates the corresponding node in Figma without re-reading the entire tree.
 
-> El flujo inverso (Código → Figma como punto de partida) genera divergencia: el diseño en Figma queda desactualizado y la sincronización posterior es más costosa.
+> The reverse flow (Code → Figma as starting point) causes divergence: the Figma design becomes outdated and subsequent synchronisation is more costly.
 
-### Caso de uso: enviar estructura de código a Figma
+### Use case: sending code structure to Figma
 
-Cuando un componente existe en código pero **no tiene representación en Figma**, se puede generar su estructura directamente desde el código usando las herramientas MCP. El caso documentado es `<streamer-modal>`:
+When a component exists in code but **has no representation in Figma**, its structure can be generated directly from code using MCP tools. The documented case is `<streamer-modal>`:
 
-**Estructura enviada (ejecutada con MCP):**
+**Structure sent (executed via MCP):**
 ```
 Frame "streamer-modal" (340×auto, #1a1a1a, radius 30px)   — auto-layout VERTICAL, gap 20, padding 32
 ├── Text  "Confirm your vote"        — 19px Bold, #ffffff
 ├── Text  "for Jane Doe"             — 13px, #888888
 ├── Frame "modal-summary"            — #242424, radius 16px, padding 16/20, auto-layout VERTICAL, gap 10
-│   ├── Frame "summary-row-vibe"     — auto-layout HORIZONTAL, SPACE_BETWEEN, fill transparente
+│   ├── Frame "summary-row-vibe"     — auto-layout HORIZONTAL, SPACE_BETWEEN, transparent fill
 │   │   ├── Text "VIBE"              — 10px, #888
 │   │   └── Text "❤️ Love it"        — 13px Bold, #fff
-│   └── Frame "summary-row-rating"  — auto-layout HORIZONTAL, SPACE_BETWEEN, fill transparente
+│   └── Frame "summary-row-rating"  — auto-layout HORIZONTAL, SPACE_BETWEEN, transparent fill
 │       ├── Text "RATING"            — 10px, #888
 │       └── Text "Fire 🔥"           — 13px Bold, #fff
-└── Frame "modal-buttons"            — auto-layout HORIZONTAL, gap 10, fill transparente
-    ├── Frame "btn-submit"           — #f472b6, radius 30px, auto-layout centrado → Text "Submit" 14px 600
-    └── Frame "btn-cancel"           — #313131, radius 30px, auto-layout centrado → Text "Cancel" 14px 600
+└── Frame "modal-buttons"            — auto-layout HORIZONTAL, gap 10, transparent fill
+    ├── Frame "btn-submit"           — #f472b6, radius 30px, centred auto-layout → Text "Submit" 14px 600
+    └── Frame "btn-cancel"           — #313131, radius 30px, centred auto-layout → Text "Cancel" 14px 600
 ```
 
-**Qué se excluye al trasladar código → Figma:**
-- Overlay con `backdrop-filter: blur` — efectos no estructurales
-- `box-shadow` y transiciones — estados interactivos
-- El estado `:host([open])` — lógica de visibilidad
+**What is excluded when translating code → Figma:**
+- Overlay with `backdrop-filter: blur` — non-structural effects
+- `box-shadow` and transitions — interactive states
+- The `:host([open])` state — visibility logic
 
-**Fricciones conocidas:**
-- El auto-layout de Figma requiere configurarse **después** de crear los hijos. El resultado es un frame estático, no un componente interactivo.
-- Las filas intermedias (summary-row, modal-buttons) necesitan `fill transparente` (alpha 0) para no tapar el fondo del contenedor padre.
-- Los botones requieren su propio auto-layout centrado para que el texto quede centrado dentro; sin él el texto aparece en la esquina superior izquierda.
-- `SPACE_BETWEEN` en auto-layout horizontal es el equivalente a `justify-content: space-between` de CSS — necesario para separar label y valor en cada fila del summary.
+**Known friction points:**
+- Figma auto-layout must be configured **after** creating children. The result is a static frame, not an interactive component.
+- Intermediate rows (summary-row, modal-buttons) need a transparent fill (alpha 0) to avoid covering the parent container's background.
+- Buttons require their own centred auto-layout for text to be centred inside; without it the text appears in the top-left corner.
+- `SPACE_BETWEEN` in horizontal auto-layout is the equivalent of CSS `justify-content: space-between` — necessary to separate label and value in each summary row.
 
-### Optimización del flujo
+### Flow optimisation
 
-Aprendizajes para reducir fricciones y consumo de tokens en el ciclo de sincronización.
+Lessons learned to reduce friction and token consumption in the synchronisation cycle.
 
-#### Prompts al generar diseño en Figma (Claude → Figma)
+#### Prompts when generating design in Figma (Claude → Figma)
 
-Generar nodos, variables y estilos en Figma consume tokens de forma excesiva si el prompt es genérico. Para mitigarlo:
+Generating nodes, variables and styles in Figma consumes tokens excessively if the prompt is generic. To mitigate this:
 
-- Describir el componente con **estructura jerárquica clara** antes de pedir su creación: qué nodos, qué propiedades, qué variables.
-- **Separar la creación de variables de la creación de frames** en prompts distintos cuando el diseño es complejo.
-- Evitar "crea un diseño bonito" — ser específico: dimensiones, colores hex, tipografía, espaciado.
+- Describe the component with a **clear hierarchical structure** before requesting its creation: which nodes, which properties, which variables.
+- **Separate variable creation from frame creation** into distinct prompts when the design is complex.
+- Avoid "create a nice design" — be specific: dimensions, hex colours, typography, spacing.
 
-#### Sincronizar cambios de código hacia Figma (Código → Figma)
+#### Syncing code changes to Figma (Code → Figma)
 
-Al notificar a Claude de un cambio en el código para que lo refleje en Figma, indicar siempre:
+When notifying Claude of a code change so it can be reflected in Figma, always specify:
 
-- **Archivo** donde se hizo el cambio (ej. `src/components/streamer-card/stylesFigma.ts`)
-- **Línea(s)** afectadas (ej. línea 147)
-- **Qué cambió** (ej. `border-radius: 8px` → `30px`)
+- **File** where the change was made (e.g. `src/components/streamer-card/stylesFigma.ts`)
+- **Line(s)** affected (e.g. line 147)
+- **What changed** (e.g. `border-radius: 8px` → `30px`)
 
-Esto evita que Claude tenga que releer archivos completos para detectar diferencias, reduciendo el uso de tokens y acelerando la sincronización.
-
----
-
-## Lecciones de interacción con Claude
-
-Patrones de comunicación que generaron confusión durante el desarrollo conjunto y cómo evitarlos.
-
-### 1. Instrucciones de arquitectura sin contexto suficiente
-
-**Qué pasó:** "No uses ningún template CSS, solo mantén el uso del `index.css`" se interpretó como eliminar Shadow DOM y mover todo el CSS a `index.css`.
-
-**Lo que se quería:** Solo cambiar la fuente del CSS de la card de `styles.ts` a `stylesFigma.ts`.
-
-**Lección:** Cuando la instrucción afecta a la arquitectura del proyecto, especificar qué archivo o patrón concreto debe cambiar, no solo el resultado deseado.
+This prevents Claude from having to re-read entire files to detect differences, reducing token usage and speeding up synchronisation.
 
 ---
 
-### 2. Propiedad CSS incorrecta por sinónimo coloquial
+## Claude interaction lessons
 
-**Qué pasó:** "Darle algo más de padding, prueba con 12px" → se aplicó `padding` al contenedor `.author` en lugar del `gap` entre iconos.
+Communication patterns that caused confusion during joint development and how to avoid them.
 
-**Lo que se quería:** Aumentar el `gap` de los iconos de plataformas a `12px`.
+### 1. Architecture instructions without sufficient context
 
-**Lección:** Cuando se trate de un ajuste de CSS puntual, usar el nombre exacto de la propiedad (`gap`, `padding`, `margin`) y el selector o elemento al que aplica.
+**What happened:** "Don't use any CSS template, just keep using `index.css`" was interpreted as removing Shadow DOM and moving all CSS to `index.css`.
 
----
+**What was intended:** Only switch the card's CSS source from `styles.ts` to `stylesFigma.ts`.
 
-### 3. Ubicación de un ajuste sin selector de referencia
-
-**Qué pasó:** "Padding-top de 5px" se aplicó a `.author` porque era el elemento del que se estaba hablando en contexto.
-
-**Lo que se quería:** `padding-top: 5px` en el primer `div` hijo dentro de `.author`.
-
-**Lección:** Para ajustes de CSS en elementos anidados, indicar el selector exacto o describirlo en relación al DOM: "en el div que contiene el logo", "en el primer hijo de .author".
+**Lesson:** When an instruction affects the project architecture, specify which file or pattern should change, not just the desired outcome.
 
 ---
 
-## Conclusiones
+### 2. Wrong CSS property due to colloquial synonym
 
-El flujo Code → Figma falla cuando el cambio en código no tiene un nodo Figma unívoco al que apuntar. La sincronización solo es predecible cuando el cambio afecta a una **variable con nombre coincidente** o a un **nodo identificable por archivo y línea**.
+**What happened:** "Give it a bit more padding, try 12px" → `padding` was applied to the `.author` container instead of the `gap` between icons.
+
+**What was intended:** Increase the `gap` of the platform icons to `12px`.
+
+**Lesson:** For specific CSS adjustments, use the exact property name (`gap`, `padding`, `margin`) and specify the selector or element it applies to.
 
 ---
 
-## Evaluación: llevar el diseño de Figma al código
+### 3. Adjustment location without a reference selector
 
-Para sincronizar el diseño de Figma con este Web Component manteniendo toda su funcionalidad, los cambios se concentran exclusivamente en la **capa visual**. La lógica (Custom Events, atributos, Shadow DOM, flujo de interacción) no se toca.
+**What happened:** "Padding-top of 5px" was applied to `.author` because that was the element being discussed in context.
 
-### Qué no cambia
+**What was intended:** `padding-top: 5px` on the first `div` child inside `.author`.
 
-| Archivo | Razón |
+**Lesson:** For CSS adjustments on nested elements, specify the exact selector or describe it relative to the DOM: "in the div containing the logo", "in the first child of .author".
+
+---
+
+## Conclusions
+
+The Code → Figma flow fails when a code change has no unambiguous Figma node to point to. Synchronisation is only predictable when the change affects a **variable with a matching name** or a **node identifiable by file and line**.
+
+---
+
+## Evaluation: bringing the Figma design into code
+
+To synchronise the Figma design with this Web Component while maintaining all its functionality, changes are concentrated exclusively in the **visual layer**. The logic (Custom Events, attributes, Shadow DOM, interaction flow) is not touched.
+
+### What does not change
+
+| File | Reason |
 |---|---|
-| `streamer-card.ts` — lógica de eventos | La orquestación `vibe-change`, `rating-change`, `vote-submitted` es independiente del diseño |
-| `streamer-vibe.ts` — estructura HTML y eventos | Los `<input type="radio">` y el evento `vibe-change` son lógica pura |
-| `streamer-rating.ts` — estructura y eventos | El array `ratings` (valores) y el evento `rating-change` no son visuales |
-| `streamer-modal.ts` — estructura y eventos | `show()`, `hide()`, `vote-submit`, `vote-cancel` no dependen del estilo |
-| `index.ts` — bootstrap | La instanciación programática del componente no cambia |
+| `streamer-card.ts` — event logic | The `vibe-change`, `rating-change`, `vote-submitted` orchestration is independent of the design |
+| `streamer-vibe.ts` — HTML structure and events | The `<input type="radio">` elements and the `vibe-change` event are pure logic |
+| `streamer-rating.ts` — structure and events | The `ratings` array (values) and the `rating-change` event are not visual |
+| `streamer-modal.ts` — structure and events | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style |
+| `index.ts` — bootstrap | The programmatic instantiation of the component does not change |
 
-### Qué cambia
+### What changes
 
-**`src/components/streamer-card/styles.ts`** — Es el archivo principal a actualizar. Todos los valores hardcodeados (`#1a1a1a`, `#eee`, `30px`, `370px`, `#ff623f`, `#00a6ed`) deben reemplazarse con los tokens de Figma:
+**`src/components/streamer-card/styles.ts`** — The main file to update. All hardcoded values (`#1a1a1a`, `#eee`, `30px`, `370px`, `#ff623f`, `#00a6ed`) must be replaced with Figma tokens:
 
-- `--background-color`: color de fondo de la card
-- `--text-color`: color de texto principal
-- `--border-radius`: radio de borde global
-- Colores de badge (`popular`, `new`): sombra inferior de `.more`
-- Ancho de la card (`.card { width }`)
+- `--background-color`: card background colour
+- `--text-color`: primary text colour
+- `--border-radius`: global border radius
+- Badge colours (`popular`, `new`): bottom shadow on `.more`
+- Card width (`.card { width }`)
 
-**`streamer-vibe.ts` — sección CSS** — Los colores de los botones de vibe están hardcodeados:
+**`streamer-vibe.ts` — CSS section** — Vibe button colours are hardcoded:
 - `#f472b6` (vote-up hover/checked)
 - `#6b7280` (vote-down hover/checked)
-- Dimensiones de los botones (40px × 40px)
+- Button dimensions (40px × 40px)
 
-**`streamer-rating.ts` — array `ratings`** — Los colores de los puntos de rating están en el array de datos:
+**`streamer-rating.ts` — `ratings` array** — Rating dot colours are in the data array:
 ```ts
 { value: 'meh',  color: '#323232', glowColor: 'rgba(255,255,255,0.7)' },
 { value: 'ok',   color: '#ffdd66' },
 { value: 'good', color: '#ffa666' },
 { value: 'fire', color: '#fe6969' },
 ```
-Estos colores deben coincidir con los que Figma define para cada nivel de rating.
+These colours must match what Figma defines for each rating level.
 
-**`streamer-modal.ts` — sección CSS** — Color del botón submit (`#f472b6`) y fondo del modal (`#1a1a1a`, `#242424`).
+**`streamer-modal.ts` — CSS section** — Submit button colour (`#f472b6`) and modal background (`#1a1a1a`, `#242424`).
 
-**`src/index.css`** — Fondo de página (actualmente blanco con patrón de grilla). Si Figma define un fondo diferente para el canvas/página, este archivo lo refleja.
+**`src/index.css`** — Page background (currently white with grid pattern). If Figma defines a different background for the canvas/page, this file reflects it.
 
-### Estrategia de sincronización
+### Synchronisation strategy
 
-El puente entre Figma y el código son las **CSS custom properties**. El componente ya usa `--background-color`, `--text-color` y `--border-radius` en `:host`. Para simplificar futuras sincronizaciones, conviene expandir ese sistema para cubrir todos los tokens de color y espaciado — así un cambio en Figma se traduce en actualizar un solo bloque de variables en `:host`, sin tocar las reglas de cada selector.
+The bridge between Figma and code is **CSS custom properties**. The component already uses `--background-color`, `--text-color` and `--border-radius` in `:host`. To simplify future synchronisations, it is worth expanding that system to cover all colour and spacing tokens — so a Figma change translates to updating a single block of variables in `:host`, without touching rules for each individual selector.
