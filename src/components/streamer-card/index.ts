@@ -2,8 +2,10 @@ import './streamer-rating';
 import './streamer-vibe';
 import './streamer-modal';
 import './streamer-card';
+import './streamer-card-autolayout';
 
 export { StreamerRating } from './streamer-rating';
 export { StreamerVibe } from './streamer-vibe';
 export { StreamerModal } from './streamer-modal';
 export { StreamerCard } from './streamer-card';
+export { StreamerCardAutolayout } from './streamer-card-autolayout';
