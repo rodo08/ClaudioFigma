@@ -334,3 +334,34 @@ These colours must match what Figma defines for each rating level.
 ### Synchronisation strategy
 
 The bridge between Figma and code is **CSS custom properties**. The component already uses `--background-color`, `--text-color` and `--border-radius` in `:host`. To simplify future synchronisations, it is worth expanding that system to cover all colour and spacing tokens — so a Figma change translates to updating a single block of variables in `:host`, without touching rules for each individual selector.
+
+---
+
+## Figma → Web Component: Autolayout Flow
+
+### Process for translating a Figma design to code with precision
+
+**1. Design with Auto Layout — by the designer**
+The designer built the `streamer-card-autolayout` frame applying auto-layout: main card VERTICAL, header HORIZONTAL, nameNstats VERTICAL centred, selections HORIZONTAL.
+
+**2. Frame audit**
+The design was inspected to evaluate whether it was translatable to code with precision. Groups with apparently empty children were verified by running `get_svg` on each one — result: all 5 groups had accessible SVGs (main logo, platform icons, badge star, vibe icons). No real asset blockers.
+
+**3. Manual adjustments — by the designer**
+The designer made corrections directly in Figma: header alignment, heights, and proportions of internal elements.
+
+**4. Structural adjustments assisted by Claude Code via MCP**
+- `selections` resized to 330px (full available width)
+- `vibe-section` created grouping VIBE? + `vibe-buttons` (HORIZONTAL, gap 16px)
+- Left/right reordering of vibe and rating sections
+- Header heights normalised to 40px
+- VERTICAL auto-layout applied to `brand` to fix STREAMER text overflow
+
+**5. Web Component creation**
+With the design ready, `<streamer-card-autolayout>` was created following the existing TypeScript architecture (Shadow DOM, Constructable Stylesheets, observedAttributes, HMR). CSS values were extracted directly from Figma: colours, font sizes, weights, radii, gaps and dimensions for each section.
+
+**6. Fine CSS adjustments post-render**
+- Removed duplicate VIBE? label (already rendered internally by `StreamerVibe`)
+- `flex: none` + `margin-left: auto` to fix streamer-rating right alignment
+- Badge star position: `right: -10px`, `translateY(-35%)`
+- Removed `width: 88%` from `.main-image img` to respect natural image proportions
