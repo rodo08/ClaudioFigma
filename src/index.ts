@@ -1,6 +1,7 @@
 import './index.css';
 import './components/streamer-card';
 import { StreamerCard } from './components/streamer-card';
+import { StreamerCardAutolayout } from './components/streamer-card/streamer-card-autolayout';
 
 import logo   from './assets/logorod.svg';
 import img1   from './assets/img1.webp';
@@ -41,6 +42,13 @@ card.addEventListener('vote-submitted', (e) => {
 });
 root.appendChild(card);
 
+const cardAutolayout = document.createElement('streamer-card-autolayout') as StreamerCardAutolayout;
+cardAutolayout.addEventListener('vote-submitted', (e) => {
+  const { vibe, rating } = (e as CustomEvent).detail;
+  console.log('Vote submitted (autolayout):', { vibe, rating });
+});
+root.appendChild(cardAutolayout);
+
 const nav = document.createElement('nav');
 nav.className = 'streamer-nav';
 
@@ -72,6 +80,7 @@ navButtons.className = 'nav-buttons';
 
 function loadStreamer(index: number) {
   const s = streamers[index];
+
   card.setSheet(s.sheet);
   card.setAttribute('name',      s.name);
   card.setAttribute('channel',   s.channel);
@@ -82,6 +91,17 @@ function loadStreamer(index: number) {
   card.setAttribute('youtube',   s.youtube);
   card.setAttribute('instagram', s.instagram);
   card.setAttribute('tiktok',    s.tiktok);
+
+  cardAutolayout.setAttribute('name',      s.name);
+  cardAutolayout.setAttribute('channel',   s.channel);
+  cardAutolayout.setAttribute('logo',      logo);
+  cardAutolayout.setAttribute('avatar',    s.avatar);
+  cardAutolayout.setAttribute('badge',     s.badge);
+  cardAutolayout.setAttribute('twitch',    s.twitch);
+  cardAutolayout.setAttribute('youtube',   s.youtube);
+  cardAutolayout.setAttribute('instagram', s.instagram);
+  cardAutolayout.setAttribute('tiktok',    s.tiktok);
+
   navButtons.querySelectorAll('.streamer-btn').forEach((b, i) =>
     b.classList.toggle('active', i === index)
   );
