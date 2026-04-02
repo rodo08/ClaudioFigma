@@ -71,7 +71,7 @@ nav.appendChild(navHeader);
 // — bloque descripción
 const navDesc = document.createElement('div');
 navDesc.className = 'nav-desc';
-navDesc.textContent = 'Web Components nativos con flujo bidireccional Figma ↔ código. Tokens de diseño como CSS custom properties, temas intercambiables con CSSStyleSheet constructable y Shadow DOM — orquestado desde Claude Code. Selecciona un perfil para explorar.';
+navDesc.textContent = 'Native Web Components with bidirectional Figma ↔ code flow. Design tokens as CSS custom properties, swappable themes with Constructable Stylesheets and Shadow DOM — orchestrated from Claude Code. Select a profile to explore.';
 nav.appendChild(navDesc);
 
 // — bloque botones
@@ -117,10 +117,6 @@ streamers.forEach((s, i) => {
 
 nav.appendChild(navButtons);
 
-const navFooter = document.createElement('p');
-navFooter.className = 'nav-footer';
-navFooter.innerHTML = 'made with ❤️ <a href="https://www.rodrigodev.cl" target="_blank" rel="noopener noreferrer">rodrigodev.cl</a>';
-nav.appendChild(navFooter);
 
 root.appendChild(nav);
 loadStreamer(0);

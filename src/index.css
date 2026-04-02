@@ -98,6 +98,7 @@ body::before {
   flex-direction: column;
   gap: 10px;
   align-items: center;
+  padding-top: 48px;
 }
 
 .nav-title {
@@ -115,25 +116,6 @@ body::before {
   font-size: 20px;
   font-weight: 400;
   color: #888;
-}
-
-.nav-footer {
-  margin: 0;
-  font-size: 11px;
-  color: #888;
-  padding-top: 200px;
-}
-
-.nav-footer a {
-  color: #888;
-  text-decoration: none;
-}
-
-.nav-footer a:hover {
-  background: linear-gradient(90deg, #f472b6, #a855f7, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .streamer-btn {
