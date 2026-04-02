@@ -8,6 +8,7 @@ const css = `
     --text-secondary: #888888;
     --divider-color:  #d9d9d9;
     --vibe-border:    #454545;
+    --brand-primary:  #FF4500;
 
     display: block;
     font-family: Poppins, sans-serif;
@@ -19,6 +20,7 @@ const css = `
 
   .card {
     width: 370px;
+    height: 690px;
     background-color: var(--card-bg);
     border-radius: 24px;
     padding: 24px 20px 0;
@@ -26,6 +28,7 @@ const css = `
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
+    box-shadow: 0 10px 0 0 var(--brand-primary);
   }
 
   /* ── header · 330x40 · HORIZONTAL space-between · radius 12 ── */
@@ -73,6 +76,7 @@ const css = `
 
   .brand-icons {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 6px;
     height: 14px;
@@ -166,7 +170,10 @@ const css = `
   .streamer-name {
     font-size: 27px;
     font-weight: 600;
-    color: var(--text-primary);
+    background: linear-gradient(90deg, #f472b6, #a855f7, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     line-height: 31.64px;
   }
 
@@ -226,9 +233,33 @@ const css = `
     flex: none;
   }
 
-  /* push rating to the right edge */
-  .selections streamer-rating {
-    margin-left: auto;
+  /* ── footer · 330px · HORIZONTAL center · padding 8/0/20 ── */
+
+  .footer {
+    width: 330px;
+    padding: 8px 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    font-family: Inter, sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 12.1px;
+  }
+
+  .footer a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  .footer a:hover {
+    background: linear-gradient(90deg, #f472b6, #a855f7, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 

@@ -166,6 +166,11 @@ export class StreamerCardAutolayout extends HTMLElement {
           <streamer-rating></streamer-rating>
         </div>
 
+        <!-- footer · centered -->
+        <div class="footer">
+          made with ❤️ by <a href="https://www.rodrigodev.cl" target="_blank" rel="noopener noreferrer">rodrigodev.cl</a>
+        </div>
+
       </article>
     `;
   }
