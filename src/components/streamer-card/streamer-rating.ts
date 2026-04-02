@@ -10,7 +10,7 @@ const css = `
   .label {
     font-size: 10px;
     font-weight: 300;
-    color: #888;
+    color: var(--text-primary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -82,8 +82,8 @@ const sheet = new CSSStyleSheet();
 sheet.replaceSync(css);
 
 const ratings = [
-  { value: 'meh',  label: 'Meh',  color: '#323232', glowColor: 'rgba(255,255,255,0.7)' },
-  { value: 'ok',   label: 'Ok',   color: '#ffdd66' },
+  { value: 'meh', label: 'Meh', color: '#323232', glowColor: 'rgba(255,255,255,0.7)' },
+  { value: 'ok', label: 'Ok', color: '#ffdd66' },
   { value: 'good', label: 'Good', color: '#ffa666' },
   { value: 'fire', label: 'Fire', color: '#fe6969' },
 ];
@@ -107,23 +107,27 @@ export class StreamerRating extends HTMLElement {
   }
 
   reset() {
-    this.shadow.querySelectorAll<HTMLInputElement>('input[type="radio"]')
-      .forEach(input => { input.checked = false; });
+    this.shadow.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+      input.checked = false;
+    });
   }
 
   private handleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
-    this.dispatchEvent(new CustomEvent('rating-change', {
-      detail: { value: input.value },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('rating-change', {
+        detail: { value: input.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
   render() {
-    const items = ratings.map(({ value, label, color, glowColor }) => {
-      const glow = glowColor ? `--glow-color: ${glowColor};` : '';
-      return `
+    const items = ratings
+      .map(({ value, label, color, glowColor }) => {
+        const glow = glowColor ? `--glow-color: ${glowColor};` : '';
+        return `
         <li>
           <input type="radio" name="rating" id="rate-${value}" value="${value}">
           <label for="rate-${value}">
@@ -132,7 +136,8 @@ export class StreamerRating extends HTMLElement {
           </label>
         </li>
       `;
-    }).join('');
+      })
+      .join('');
 
     this.shadow.innerHTML = `
       <span class="label">Rate her content</span>
@@ -156,7 +161,7 @@ if (!customElements.get('streamer-rating')) {
       );
     }
   }
-  document.querySelectorAll<StreamerRating>('streamer-rating').forEach(el => el.render());
+  document.querySelectorAll<StreamerRating>('streamer-rating').forEach((el) => el.render());
 }
 
 if (import.meta.webpackHot) {

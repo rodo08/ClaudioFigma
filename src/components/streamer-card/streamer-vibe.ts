@@ -17,7 +17,7 @@ const css = `
 
   .buttons {
     display: flex;
-    gap: 5px;
+    gap: 16px;
   }
 
   input[type="radio"] {
@@ -76,17 +76,20 @@ export class StreamerVibe extends HTMLElement {
   }
 
   reset() {
-    this.shadow.querySelectorAll<HTMLInputElement>('input[type="radio"]')
-      .forEach(input => { input.checked = false; });
+    this.shadow.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+      input.checked = false;
+    });
   }
 
   private handleChange = (e: Event) => {
     const input = e.target as HTMLInputElement;
-    this.dispatchEvent(new CustomEvent('vibe-change', {
-      detail: { value: input.value },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('vibe-change', {
+        detail: { value: input.value },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   };
 
   render() {
@@ -117,7 +120,7 @@ if (!customElements.get('streamer-vibe')) {
       );
     }
   }
-  document.querySelectorAll<StreamerVibe>('streamer-vibe').forEach(el => el.render());
+  document.querySelectorAll<StreamerVibe>('streamer-vibe').forEach((el) => el.render());
 }
 
 if (import.meta.webpackHot) {
