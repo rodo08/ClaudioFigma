@@ -283,6 +283,30 @@ Communication patterns that caused confusion during joint development and how to
 
 ---
 
+### 4. Sync direction not specified
+
+**What happened:** "VIBE? and RATE HER CONTENT shouldn't be white" → Claude interpreted this as a code fix and changed `.label { color: #888 }` in both sub-components. The user undid the change — the intention was to sync the existing white state to Figma, not change the code.
+
+**What was intended:** Confirm that Figma reflects `var(--text-primary)` (#fff) on those labels — a Code → Figma sync, not a code edit.
+
+**Lesson:** When a visual difference is spotted, always specify the sync direction explicitly:
+- *"Update Figma to match the code"* → Code → Figma
+- *"Update the code to match Figma"* → Figma → Code
+
+Without this, Claude will guess the direction and will often guess wrong.
+
+---
+
+### 5. Single text node cannot represent two visual styles
+
+**What happened:** The footer had one text node ("made with ❤️ by rodrigodev.cl") but the code renders it as two parts with different weights and colours. When asked to make "rodrigodev.cl" bold and white, it was impossible to apply partial styling with MCP tools on a single node.
+
+**What was intended:** The link part styled independently (Inter Bold, #ffffff) from the label (Inter Light, #888888).
+
+**Lesson:** When a text node needs mixed styling (different weight, colour, or font within the same line), it must be split into separate Figma nodes with auto-layout on the parent to keep them aligned. Plan this separation during the initial Figma build to avoid restructuring later.
+
+---
+
 ## Conclusions
 
 The Code → Figma flow fails when a code change has no unambiguous Figma node to point to. Synchronisation is only predictable when the change affects a **variable with a matching name** or a **node identifiable by file and line**.
@@ -365,3 +389,51 @@ With the design ready, `<streamer-card-autolayout>` was created following the ex
 - `flex: none` + `margin-left: auto` to fix streamer-rating right alignment
 - Badge star position: `right: -10px`, `translateY(-35%)`
 - Removed `width: 88%` from `.main-image img` to respect natural image proportions
+
+---
+
+## Bidirectional flow: full cycle recap
+
+### Phase 1 — Figma → Code
+
+The design existed in Figma first. Before writing any code:
+
+1. **Audited the frame via MCP**: read nodes, groups, SVGs, dimensions, typography, colours, spacing.
+2. **Identified precision blockers**: groups without auto-layout, inconsistent header heights, wrong left/right ordering of vibe and rating sections.
+3. **Adjusted Figma via MCP** to make it reliably translatable to CSS: applied auto-layout to `selections`, `brand`, `vibe-section`; normalised heights to 40px; reordered sections; centred `nameNstats`.
+4. With the design clean, **extracted values directly from Figma** (hex, font-size, weight, gap, radius, padding) and wrote them into `stylesAutolayout.ts` and `streamer-card-autolayout.ts`.
+
+**Result:** `<streamer-card-autolayout>` faithfully reflects the Figma design.
+
+### Phase 2 — Code → Figma
+
+Once the component existed, each code change was manually synced back to Figma via MCP:
+
+| Code change | Figma update |
+|---|---|
+| `box-shadow: 0 10px 0 0 #FF4500` | Drop shadow on card frame, offset Y 10px, colour `brand-primary` |
+| `.streamer-name` gradient text | Left as visual reference (Figma has no native gradient text) |
+| Footer added to card | `footer` frame created with text node and HORIZONTAL auto-layout |
+| `margin-left: auto` removed from `streamer-rating` | Verified in code — no Figma change needed |
+| Footer split into two styled parts | Single text node deleted; two nodes created: `made-with` (Inter Light, #888) + `rodrigodev-link` (Inter Bold, #fff) |
+
+### The pattern that repeated in both directions
+
+```
+Figma (design source of truth)
+  ↓  read nodes, values, structure
+Claude audits and adjusts Figma if needed
+  ↓
+Code reflects the design with precision
+  ↓  change in code
+Claude receives: file + line + what changed
+  ↓
+Figma updated via MCP without re-reading the full tree
+```
+
+### What made it work
+
+- **Adjusting Figma before coding** (not after) prevented divergence from the start.
+- **Specifying file + line + value** when reporting code changes eliminated the need to re-read entire files.
+- **CSS custom properties as the bridge**: one token in `:host` maps to one variable in Figma, making sync predictable.
+- **Separating structural from visual changes**: component logic (events, Shadow DOM) was never touched — only the visual layer.
