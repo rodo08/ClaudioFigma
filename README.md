@@ -25,10 +25,6 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 
 ![Zara Nyx — Figma theme](../screenshots/Screenshot%202026-04-03%20013110.jpg)
 
-![Nova Ray — Neon theme](../screenshots/Screenshot%202026-04-03%20013915.jpg)
-
-![Zara Nyx — Figma theme with grid pattern](../screenshots/Screenshot%202026-04-03%20020425.jpg)
-
 ---
 
 ## Stack
@@ -69,18 +65,16 @@ Developer evaluates the precision and quality of the result
 
 This hybrid flow was what allowed the original Figma design to be implemented faithfully, without over-consuming tokens and while maintaining control over visual decisions.
 
-![Original streamer-card — early iteration](../screenshots/Screenshot%202026-03-31%20004442.jpg)
-
 ---
 
 ## Components
 
-| Component | Tag | Emits |
-|---|---|---|
-| `StreamerCard` | `<streamer-card>` | `vote-submitted` |
-| `StreamerVibe` | `<streamer-vibe>` | `vibe-change` |
-| `StreamerRating` | `<streamer-rating>` | `rating-change` |
-| `StreamerModal` | `<streamer-modal>` | `vote-submit`, `vote-cancel` |
+| Component        | Tag                 | Emits                        |
+| ---------------- | ------------------- | ---------------------------- |
+| `StreamerCard`   | `<streamer-card>`   | `vote-submitted`             |
+| `StreamerVibe`   | `<streamer-vibe>`   | `vibe-change`                |
+| `StreamerRating` | `<streamer-rating>` | `rating-change`              |
+| `StreamerModal`  | `<streamer-modal>`  | `vote-submit`, `vote-cancel` |
 
 ### Interaction flow
 
@@ -94,17 +88,17 @@ This hybrid flow was what allowed the original Figma design to be implemented fa
 
 ## `<streamer-card>` attributes
 
-| Attribute | Description |
-|---|---|
-| `name` | Real name — used in the card body and image alt |
-| `channel` | Display name shown in the author header (fallback to `name`) |
-| `logo` | Logo image URL (shown in author header) |
-| `avatar` | Avatar image URL (main card image) |
-| `badge` | `"new"` or `"popular"` |
-| `twitch` | Follower count (e.g. `85K`) |
-| `youtube` | Follower count |
-| `instagram` | Follower count |
-| `tiktok` | Follower count |
+| Attribute   | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| `name`      | Real name — used in the card body and image alt              |
+| `channel`   | Display name shown in the author header (fallback to `name`) |
+| `logo`      | Logo image URL (shown in author header)                      |
+| `avatar`    | Avatar image URL (main card image)                           |
+| `badge`     | `"new"` or `"popular"`                                       |
+| `twitch`    | Follower count (e.g. `85K`)                                  |
+| `youtube`   | Follower count                                               |
+| `instagram` | Follower count                                               |
+| `tiktok`    | Follower count                                               |
 
 ---
 
@@ -148,12 +142,12 @@ card.addEventListener('vote-submitted', (e) => {
 document.querySelector('#root')!.appendChild(card);
 ```
 
-| | Option A | Option B |
-|---|---|---|
-| Static data | ideal | unnecessary |
-| Data from API | hard | ideal |
+|                | Option A      | Option B        |
+| -------------- | ------------- | --------------- |
+| Static data    | ideal         | unnecessary     |
+| Data from API  | hard          | ideal           |
 | Multiple cards | multiple tags | loop over array |
-| Frameworks | possible | more natural |
+| Frameworks     | possible      | more natural    |
 
 ---
 
@@ -204,6 +198,7 @@ Figma (updated)
 When a component exists in code but **has no representation in Figma**, its structure can be generated directly from code using MCP tools. The documented case is `<streamer-modal>`:
 
 **Structure sent (executed via MCP):**
+
 ```
 Frame "streamer-modal" (340×auto, #1a1a1a, radius 30px)   — auto-layout VERTICAL, gap 20, padding 32
 ├── Text  "Confirm your vote"        — 19px Bold, #ffffff
@@ -221,11 +216,13 @@ Frame "streamer-modal" (340×auto, #1a1a1a, radius 30px)   — auto-layout VERTI
 ```
 
 **What is excluded when translating code → Figma:**
+
 - Overlay with `backdrop-filter: blur` — non-structural effects
 - `box-shadow` and transitions — interactive states
 - The `:host([open])` state — visibility logic
 
 **Known friction points:**
+
 - Figma auto-layout must be configured **after** creating children. The result is a static frame, not an interactive component.
 - Intermediate rows (summary-row, modal-buttons) need a transparent fill (alpha 0) to avoid covering the parent container's background.
 - Buttons require their own centred auto-layout for text to be centred inside; without it the text appears in the top-left corner.
@@ -296,8 +293,9 @@ Communication patterns that caused confusion during joint development and how to
 **What was intended:** Confirm that Figma reflects `var(--text-primary)` (#fff) on those labels — a Code → Figma sync, not a code edit.
 
 **Lesson:** When a visual difference is spotted, always specify the sync direction explicitly:
-- *"Update Figma to match the code"* → Code → Figma
-- *"Update the code to match Figma"* → Figma → Code
+
+- _"Update Figma to match the code"_ → Code → Figma
+- _"Update the code to match Figma"_ → Figma → Code
 
 Without this, Claude will guess the direction and will often guess wrong.
 
@@ -325,13 +323,13 @@ To synchronise the Figma design with this Web Component while maintaining all it
 
 ### What does not change
 
-| File | Reason |
-|---|---|
-| `streamer-card.ts` — event logic | The `vibe-change`, `rating-change`, `vote-submitted` orchestration is independent of the design |
-| `streamer-vibe.ts` — HTML structure and events | The `<input type="radio">` elements and the `vibe-change` event are pure logic |
-| `streamer-rating.ts` — structure and events | The `ratings` array (values) and the `rating-change` event are not visual |
-| `streamer-modal.ts` — structure and events | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style |
-| `index.ts` — bootstrap | The programmatic instantiation of the component does not change |
+| File                                           | Reason                                                                                          |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `streamer-card.ts` — event logic               | The `vibe-change`, `rating-change`, `vote-submitted` orchestration is independent of the design |
+| `streamer-vibe.ts` — HTML structure and events | The `<input type="radio">` elements and the `vibe-change` event are pure logic                  |
+| `streamer-rating.ts` — structure and events    | The `ratings` array (values) and the `rating-change` event are not visual                       |
+| `streamer-modal.ts` — structure and events     | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style                         |
+| `index.ts` — bootstrap                         | The programmatic instantiation of the component does not change                                 |
 
 ### What changes
 
@@ -344,17 +342,20 @@ To synchronise the Figma design with this Web Component while maintaining all it
 - Card width (`.card { width }`)
 
 **`streamer-vibe.ts` — CSS section** — Vibe button colours are hardcoded:
+
 - `#f472b6` (vote-up hover/checked)
 - `#6b7280` (vote-down hover/checked)
 - Button dimensions (40px × 40px)
 
 **`streamer-rating.ts` — `ratings` array** — Rating dot colours are in the data array:
+
 ```ts
 { value: 'meh',  color: '#323232', glowColor: 'rgba(255,255,255,0.7)' },
 { value: 'ok',   color: '#ffdd66' },
 { value: 'good', color: '#ffa666' },
 { value: 'fire', color: '#fe6969' },
 ```
+
 These colours must match what Figma defines for each rating level.
 
 **`streamer-modal.ts` — CSS section** — Submit button colour (`#f472b6`) and modal background (`#1a1a1a`, `#242424`).
@@ -377,12 +378,11 @@ The designer built the `streamer-card-autolayout` frame applying auto-layout: ma
 **2. Frame audit**
 The design was inspected to evaluate whether it was translatable to code with precision. Groups with apparently empty children were verified by running `get_svg` on each one — result: all 5 groups had accessible SVGs (main logo, platform icons, badge star, vibe icons). No real asset blockers.
 
-![Figma inspector — auto-layout audit](../screenshots/Screenshot%202026-03-31%20012731.jpg)
-
 **3. Manual adjustments — by the designer**
 The designer made corrections directly in Figma: header alignment, heights, and proportions of internal elements.
 
 **4. Structural adjustments assisted by Claude Code via MCP**
+
 - `selections` resized to 330px (full available width)
 - `vibe-section` created grouping VIBE? + `vibe-buttons` (HORIZONTAL, gap 16px)
 - Left/right reordering of vibe and rating sections
@@ -393,6 +393,7 @@ The designer made corrections directly in Figma: header alignment, heights, and 
 With the design ready, `<streamer-card-autolayout>` was created following the existing TypeScript architecture (Shadow DOM, Constructable Stylesheets, observedAttributes, HMR). CSS values were extracted directly from Figma: colours, font sizes, weights, radii, gaps and dimensions for each section.
 
 **6. Fine CSS adjustments post-render**
+
 - Removed duplicate VIBE? label (already rendered internally by `StreamerVibe`)
 - `flex: none` + `margin-left: auto` to fix streamer-rating right alignment
 - Badge star position: `right: -10px`, `translateY(-35%)`
@@ -425,15 +426,17 @@ Once the component existed, each code change was manually synced back to Figma v
 
 [![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://youtu.be/eM57ZGMHJTU)
 
-| Code change | Figma update |
-|---|---|
-| `box-shadow: 0 10px 0 0 #FF4500` | Drop shadow on card frame, offset Y 10px, colour `brand-primary` |
-| `.streamer-name` gradient text | Left as visual reference (Figma has no native gradient text) |
-| Footer added to card | `footer` frame created with text node and HORIZONTAL auto-layout |
-| `margin-left: auto` removed from `streamer-rating` | Verified in code — no Figma change needed |
-| Footer split into two styled parts | Single text node deleted; two nodes created: `made-with` (Inter Light, #888) + `rodrigodev-link` (Inter Bold, #fff) |
+| Code change                                        | Figma update                                                                                                        |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `box-shadow: 0 10px 0 0 #FF4500`                   | Drop shadow on card frame, offset Y 10px, colour `brand-primary`                                                    |
+| `.streamer-name` gradient text                     | Left as visual reference (Figma has no native gradient text)                                                        |
+| Footer added to card                               | `footer` frame created with text node and HORIZONTAL auto-layout                                                    |
+| `margin-left: auto` removed from `streamer-rating` | Verified in code — no Figma change needed                                                                           |
+| Footer split into two styled parts                 | Single text node deleted; two nodes created: `made-with` (Inter Light, #888) + `rodrigodev-link` (Inter Bold, #fff) |
 
 ![Gradient text on streamer name — Code → Figma iteration](../screenshots/Screenshot%202026-04-03%20012548.jpg)
+
+![Final state — last Code → Figma sync](../screenshots/final-change.jpg)
 
 ### The pattern that repeated in both directions
 
@@ -470,6 +473,7 @@ Available at: `~/.claude/commands/figma-sync.md`
 
 **Phase 0 — Requirements check** (guardian)
 Before connecting to Figma or touching any file, the skill requires:
+
 - Active Figma channel ID
 - Target frame name or node ID
 - Sync direction declared explicitly (`Figma → Code` or `Code → Figma`)
@@ -481,6 +485,7 @@ If any item is missing, the skill stops and asks. It does not proceed, guess, or
 
 **Phase 1 — Audit**
 Reads the target frame and evaluates precision before executing any change:
+
 - Auto-layout coverage (groups without it are blockers)
 - Node naming (anonymous nodes make Code→Figma unreliable)
 - Design tokens vs hardcoded values
@@ -512,6 +517,7 @@ Lists what was synced, what was left out and why, and restates any unresolved bl
 The structured flow eliminated the main friction from earlier sessions: assuming sync direction. No change was applied in the wrong direction during the entire run.
 
 **Phase 1 saved work twice**
+
 - Detected that `rating-section` was a GROUP before trying to apply fills — without the audit, the sync would have failed silently.
 - Detected non-uniform padding in `vibe-section` (11px left / 7px top) before writing code — corrected in Figma first, so the code was precise from the start.
 
@@ -520,6 +526,7 @@ The structured flow eliminated the main friction from earlier sessions: assuming
 
 **The cleanest iteration**
 Moving styles from `.selections streamer-vibe / streamer-rating` to `.selections` was the fastest sync of the session:
+
 - Phase 0: all info provided immediately
 - Phase 1: nodes identified in a single read
 - Phase 2: 6 parallel operations, no errors
@@ -528,6 +535,7 @@ Moving styles from `.selections streamer-vibe / streamer-rating` to `.selections
 The reason: the change was well-scoped (file + lines + what changed) and Figma nodes had semantic names. **Prior investment in naming nodes and applying auto-layout in Figma made this speed possible.**
 
 **What the skill still does not cover**
+
 - Creating new Figma nodes from code (e.g. the footer text node split) — still requires manual steps and developer judgement.
 - The SVG tile pattern as a workaround for CSS gradients not supported in Figma — a candidate for a documented pattern within the skill.
 
