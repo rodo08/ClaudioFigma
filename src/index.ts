@@ -1,7 +1,7 @@
 import './index.css';
 import './components/streamer-card';
 import { StreamerCard } from './components/streamer-card';
-import { StreamerCardAutolayout } from './components/streamer-card/streamer-card-autolayout';
+import { StreamerCardAutolayout } from './components/streamer-card/streamer-card-autolayout/streamer-card-autolayout';
 
 import logo   from './assets/logorod.svg';
 import img1   from './assets/img1.webp';
