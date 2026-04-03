@@ -166,6 +166,12 @@ bun run build   # production build
 bun run preview # preview production build
 ```
 
+### Figma MCP connection
+
+To enable the bidirectional flow, connect Claude Code to the Figma channel and verify the MCP is active:
+
+[![Connecting to Figma channel and verifying MCP](https://img.youtube.com/vi/2nvKEIDWql8/0.jpg)](https://youtu.be/2nvKEIDWql8)
+
 ---
 
 ## Bidirectional flow: Claude Code ↔ Figma
