@@ -1,5 +1,14 @@
 /// <reference types="@rspack/core/module" />
 
+interface ImportMeta {
+  readonly webpackHot?: { accept(): void };
+}
+
+declare module '*.css' {
+  const content: string;
+  export default content;
+}
+
 declare module '*.svg' {
   const src: string;
   export default src;
