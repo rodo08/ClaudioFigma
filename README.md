@@ -419,6 +419,8 @@ The design existed in Figma first. Before writing any code:
 
 Once the component existed, each code change was manually synced back to Figma via MCP:
 
+▶ [Demo: border-radius change synced from code to Figma](https://youtu.be/eM57ZGMHJTU)
+
 | Code change | Figma update |
 |---|---|
 | `box-shadow: 0 10px 0 0 #FF4500` | Drop shadow on card frame, offset Y 10px, colour `brand-primary` |
