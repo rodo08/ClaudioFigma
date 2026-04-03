@@ -26,6 +26,8 @@ A native Web Component project documenting the full process of building a bidire
 
 ## Demo
 
+**Live →** [claudiofigmabidirectional.netlify.app](https://claudiofigmabidirectional.netlify.app/)
+
 ![Zara Nyx — Figma theme](assets/demo-streamer-figma-theme.jpg)
 
 ---
