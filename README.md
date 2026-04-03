@@ -23,7 +23,7 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 
 ## Demo
 
-![Zara Nyx — Figma theme](../screenshots/Screenshot%202026-04-03%20013110.jpg)
+![Zara Nyx — Figma theme](assets/demo-streamer-figma-theme.jpg)
 
 ---
 
@@ -399,9 +399,9 @@ With the design ready, `<streamer-card-autolayout>` was created following the ex
 - Badge star position: `right: -10px`, `translateY(-35%)`
 - Removed `width: 88%` from `.main-image img` to respect natural image proportions
 
-![Nova Ray — duplicate VIBE? label bug (before fix)](../screenshots/Screenshot%202026-04-01%20000136.jpg)
+![Nova Ray — duplicate VIBE? label bug (before fix)](assets/bug-vibe-label-duplicate.jpg)
 
-![streamer-card-autolayout — after CSS adjustments](../screenshots/Screenshot%202026-04-03%20000459.jpg)
+![streamer-card-autolayout — after CSS adjustments](assets/card-autolayout-clean.jpg)
 
 ---
 
@@ -434,9 +434,9 @@ Once the component existed, each code change was manually synced back to Figma v
 | `margin-left: auto` removed from `streamer-rating` | Verified in code — no Figma change needed                                                                           |
 | Footer split into two styled parts                 | Single text node deleted; two nodes created: `made-with` (Inter Light, #888) + `rodrigodev-link` (Inter Bold, #fff) |
 
-![Gradient text on streamer name — Code → Figma iteration](../screenshots/Screenshot%202026-04-03%20012548.jpg)
+![Gradient text on streamer name — Code → Figma iteration](assets/code-to-figma-gradient-text.jpg)
 
-![Final state — last Code → Figma sync](../screenshots/final-change.jpg)
+![Final state — last Code → Figma sync](assets/final-change.jpg)
 
 ### The pattern that repeated in both directions
 
@@ -481,7 +481,7 @@ Before connecting to Figma or touching any file, the skill requires:
 
 If any item is missing, the skill stops and asks. It does not proceed, guess, or infer.
 
-![Phase 0 — requirements check with repeating-linear-gradient blocker](../screenshots/Screenshot%202026-04-03%20014300.jpg)
+![Phase 0 — requirements check with repeating-linear-gradient blocker](assets/figma-sync-phase0-audit.jpg)
 
 **Phase 1 — Audit**
 Reads the target frame and evaluates precision before executing any change:
@@ -495,9 +495,9 @@ Reads the target frame and evaluates precision before executing any change:
 
 Reports a precision score: High (>85%) / Medium (50–85%) / Low (<50%). Low = stops and explains what to fix first.
 
-![Phase 1 — audit output (vibe-section & rating-section)](../screenshots/Screenshot%202026-04-03%20012737.jpg)
+![Phase 1 — audit output (vibe-section & rating-section)](assets/figma-sync-phase1-audit.jpg)
 
-![Phase 1 — audit (Code → Figma, stylesAutolayout.ts)](../screenshots/Screenshot%202026-04-03%20020621.jpg)
+![Phase 1 — audit (Code → Figma, stylesAutolayout.ts)](assets/figma-sync-phase1-audit-2.jpg)
 
 **Phase 2 — Execution**
 Applies changes based on direction and audit result. Never approximates values. Never touches component logic.
@@ -505,9 +505,9 @@ Applies changes based on direction and audit result. Never approximates values. 
 **Phase 3 — Verification**
 Lists what was synced, what was left out and why, and restates any unresolved blockers from Phase 1.
 
-![Phase 3 — verification (CSS tokens synced)](../screenshots/Screenshot%202026-04-03%20013012.jpg)
+![Phase 3 — verification (CSS tokens synced)](assets/figma-sync-phase3-verification.jpg)
 
-![Phase 3 — verification (selections/vibe/rating — cleanest iteration)](../screenshots/Screenshot%202026-04-03%20020655.jpg)
+![Phase 3 — verification (selections/vibe/rating — cleanest iteration)](assets/figma-sync-phase3-verification-2.jpg)
 
 ---
 
