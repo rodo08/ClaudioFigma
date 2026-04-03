@@ -3,12 +3,16 @@
 
 const css = `
   :host {
-    --card-bg:        #121212;
-    --text-primary:   #ffffff;
-    --text-secondary: #888888;
-    --divider-color:  #d9d9d9;
-    --vibe-border:    #454545;
-    --brand-primary:  #FF4500;
+    --card-bg:          #121212;
+    --text-primary:     #ffffff;
+    --text-secondary:   #888888;
+    --divider-color:    #d9d9d9;
+    --vibe-border:      #454545;
+    --brand-primary:    #FF4500;
+    --selections-bg:    #220536;
+    --selections-stroke:#7504FF;
+    --selections-radius:10px;
+    --selections-padding:12px;
 
     display: block;
     font-family: Poppins, sans-serif;
@@ -22,6 +26,10 @@ const css = `
     width: 370px;
     height: 690px;
     background-color: var(--card-bg);
+    background-image:
+      repeating-linear-gradient(45deg,  rgba(255, 140, 0, 0.12) 0, rgba(255, 140, 0, 0.12) 1px, transparent 1px, transparent 22px),
+      repeating-linear-gradient(-45deg, rgba(255,  69, 0, 0.08) 0, rgba(255,  69, 0, 0.08) 1px, transparent 1px, transparent 22px);
+    background-size: 44px 44px;
     border-radius: 24px;
     padding: 24px 20px 0;
     display: flex;
@@ -228,9 +236,14 @@ const css = `
   }
 
   /* override flex:1 that streamer-vibe and streamer-rating set on :host */
+  /* Figma: vibe-section + rating-section · bg #220536 · stroke #7504ff · radius 10 · padding 12 */
   .selections streamer-vibe,
   .selections streamer-rating {
     flex: none;
+    background-color: var(--selections-bg);
+    border: 1px solid var(--selections-stroke);
+    border-radius: var(--selections-radius);
+    padding: var(--selections-padding);
   }
 
   /* ── footer · 330px · HORIZONTAL center · padding 8/0/20 ── */
