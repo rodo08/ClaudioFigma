@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from '@rspack/cli';
 import { rspack, type SwcLoaderOptions } from '@rspack/core';
 
@@ -15,6 +16,7 @@ export default defineConfig({
     rules: [
       {
         test: /\.(png|webp|jpg|jpeg|gif|svg)$/,
+        include: path.resolve(__dirname, 'src'),
         type: 'asset/resource',
       },
       {
