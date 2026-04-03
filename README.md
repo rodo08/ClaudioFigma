@@ -23,15 +23,11 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
 
 ## Demo
 
-<!-- Add demo videos here. Suggested structure:
+![Zara Nyx — Figma theme](../screenshots/Screenshot%202026-04-03%20013110.jpg)
 
-### ❌ Fail case — [short description]
-[video or gif]
+![Nova Ray — Neon theme](../screenshots/Screenshot%202026-04-03%20013915.jpg)
 
-### ✅ Success case — [short description]
-[video or gif]
-
--->
+![Zara Nyx — Figma theme with grid pattern](../screenshots/Screenshot%202026-04-03%20020425.jpg)
 
 ---
 
@@ -72,6 +68,8 @@ Developer evaluates the precision and quality of the result
 - **The developer adjusts manually** when the task requires fine visual judgment that Claude cannot infer from code alone.
 
 This hybrid flow was what allowed the original Figma design to be implemented faithfully, without over-consuming tokens and while maintaining control over visual decisions.
+
+![Original streamer-card — early iteration](../screenshots/Screenshot%202026-03-31%20004442.jpg)
 
 ---
 
@@ -371,6 +369,8 @@ The designer built the `streamer-card-autolayout` frame applying auto-layout: ma
 **2. Frame audit**
 The design was inspected to evaluate whether it was translatable to code with precision. Groups with apparently empty children were verified by running `get_svg` on each one — result: all 5 groups had accessible SVGs (main logo, platform icons, badge star, vibe icons). No real asset blockers.
 
+![Figma inspector — auto-layout audit](../screenshots/Screenshot%202026-03-31%20012731.jpg)
+
 **3. Manual adjustments — by the designer**
 The designer made corrections directly in Figma: header alignment, heights, and proportions of internal elements.
 
@@ -389,6 +389,10 @@ With the design ready, `<streamer-card-autolayout>` was created following the ex
 - `flex: none` + `margin-left: auto` to fix streamer-rating right alignment
 - Badge star position: `right: -10px`, `translateY(-35%)`
 - Removed `width: 88%` from `.main-image img` to respect natural image proportions
+
+![Nova Ray — duplicate VIBE? label bug (before fix)](../screenshots/Screenshot%202026-04-01%20000136.jpg)
+
+![streamer-card-autolayout — after CSS adjustments](../screenshots/Screenshot%202026-04-03%20000459.jpg)
 
 ---
 
@@ -416,6 +420,8 @@ Once the component existed, each code change was manually synced back to Figma v
 | Footer added to card | `footer` frame created with text node and HORIZONTAL auto-layout |
 | `margin-left: auto` removed from `streamer-rating` | Verified in code — no Figma change needed |
 | Footer split into two styled parts | Single text node deleted; two nodes created: `made-with` (Inter Light, #888) + `rodrigodev-link` (Inter Bold, #fff) |
+
+![Gradient text on streamer name — Code → Figma iteration](../screenshots/Screenshot%202026-04-03%20012548.jpg)
 
 ### The pattern that repeated in both directions
 
@@ -459,6 +465,8 @@ Before connecting to Figma or touching any file, the skill requires:
 
 If any item is missing, the skill stops and asks. It does not proceed, guess, or infer.
 
+![Phase 0 — requirements check with repeating-linear-gradient blocker](../screenshots/Screenshot%202026-04-03%20014300.jpg)
+
 **Phase 1 — Audit**
 Reads the target frame and evaluates precision before executing any change:
 - Auto-layout coverage (groups without it are blockers)
@@ -470,11 +478,19 @@ Reads the target frame and evaluates precision before executing any change:
 
 Reports a precision score: High (>85%) / Medium (50–85%) / Low (<50%). Low = stops and explains what to fix first.
 
+![Phase 1 — audit output (vibe-section & rating-section)](../screenshots/Screenshot%202026-04-03%20012737.jpg)
+
+![Phase 1 — audit (Code → Figma, stylesAutolayout.ts)](../screenshots/Screenshot%202026-04-03%20020621.jpg)
+
 **Phase 2 — Execution**
 Applies changes based on direction and audit result. Never approximates values. Never touches component logic.
 
 **Phase 3 — Verification**
 Lists what was synced, what was left out and why, and restates any unresolved blockers from Phase 1.
+
+![Phase 3 — verification (CSS tokens synced)](../screenshots/Screenshot%202026-04-03%20013012.jpg)
+
+![Phase 3 — verification (selections/vibe/rating — cleanest iteration)](../screenshots/Screenshot%202026-04-03%20020655.jpg)
 
 ---
 
