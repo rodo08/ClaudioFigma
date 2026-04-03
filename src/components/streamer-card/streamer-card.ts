@@ -2,7 +2,7 @@ import { sheet } from './stylesFigma';
 import { platformIcons } from './platform-icons';
 import { StreamerVibe } from './streamer-vibe/streamer-vibe';
 import { StreamerRating } from './streamer-rating/streamer-rating';
-import { StreamerModal } from './streamer-modal';
+import { StreamerModal } from './streamer-modal/streamer-modal';
 
 const platforms = ['twitch', 'youtube', 'instagram', 'tiktok'] as const;
 
