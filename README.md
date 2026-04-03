@@ -437,3 +437,72 @@ Figma updated via MCP without re-reading the full tree
 - **Specifying file + line + value** when reporting code changes eliminated the need to re-read entire files.
 - **CSS custom properties as the bridge**: one token in `:host` maps to one variable in Figma, making sync predictable.
 - **Separating structural from visual changes**: component logic (events, Shadow DOM) was never touched — only the visual layer.
+
+---
+
+## `/figma-sync` skill: bidirectional flow with structure
+
+### What the skill is
+
+A slash command (`/figma-sync`) that enforces a structured sync protocol between Figma and code. It prevents the most common failure modes by requiring explicit inputs before doing anything.
+
+Available at: `~/.claude/commands/figma-sync.md`
+
+### The four phases
+
+**Phase 0 — Requirements check** (guardian)
+Before connecting to Figma or touching any file, the skill requires:
+- Active Figma channel ID
+- Target frame name or node ID
+- Sync direction declared explicitly (`Figma → Code` or `Code → Figma`)
+- If `Code → Figma`: file path + line(s) affected + what changed (property + old → new value)
+
+If any item is missing, the skill stops and asks. It does not proceed, guess, or infer.
+
+**Phase 1 — Audit**
+Reads the target frame and evaluates precision before executing any change:
+- Auto-layout coverage (groups without it are blockers)
+- Node naming (anonymous nodes make Code→Figma unreliable)
+- Design tokens vs hardcoded values
+- CSS custom properties in `:host`
+- Mixed text styles requiring node splitting
+- Out-of-scope properties (gradient text, `backdrop-filter`, transitions, `:hover`)
+
+Reports a precision score: High (>85%) / Medium (50–85%) / Low (<50%). Low = stops and explains what to fix first.
+
+**Phase 2 — Execution**
+Applies changes based on direction and audit result. Never approximates values. Never touches component logic.
+
+**Phase 3 — Verification**
+Lists what was synced, what was left out and why, and restates any unresolved blockers from Phase 1.
+
+---
+
+### Conclusions from the first full run
+
+**The skill worked as a guardian**
+The structured flow eliminated the main friction from earlier sessions: assuming sync direction. No change was applied in the wrong direction during the entire run.
+
+**Phase 1 saved work twice**
+- Detected that `rating-section` was a GROUP before trying to apply fills — without the audit, the sync would have failed silently.
+- Detected non-uniform padding in `vibe-section` (11px left / 7px top) before writing code — corrected in Figma first, so the code was precise from the start.
+
+**The real limit of sync**
+`repeating-linear-gradient` on `.card` exposed the concrete boundary: not everything that exists in code can exist in Figma. The skill handled it correctly — did not approximate, did not ignore, documented it via annotation and offered alternatives (approximate gradient, SVG tile). That is what a professional sync flow should do.
+
+**The cleanest iteration**
+Moving styles from `.selections streamer-vibe / streamer-rating` to `.selections` was the fastest sync of the session:
+- Phase 0: all info provided immediately
+- Phase 1: nodes identified in a single read
+- Phase 2: 6 parallel operations, no errors
+- Phase 3: full verification in one pass
+
+The reason: the change was well-scoped (file + lines + what changed) and Figma nodes had semantic names. **Prior investment in naming nodes and applying auto-layout in Figma made this speed possible.**
+
+**What the skill still does not cover**
+- Creating new Figma nodes from code (e.g. the footer text node split) — still requires manual steps and developer judgement.
+- The SVG tile pattern as a workaround for CSS gradients not supported in Figma — a candidate for a documented pattern within the skill.
+
+### The synthesis
+
+> Bidirectionality is not "Figma and code always identical". It is knowing **what can live on each side, in which direction each change flows, and how to document what cannot cross**. The skill enforces exactly that.
