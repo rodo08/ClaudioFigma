@@ -1,7 +1,7 @@
 import { sheet } from './stylesAutolayout';
 import { platformIcons } from './platform-icons';
 import { StreamerVibe } from './streamer-vibe/streamer-vibe';
-import { StreamerRating } from './streamer-rating';
+import { StreamerRating } from './streamer-rating/streamer-rating';
 import { StreamerModal } from './streamer-modal';
 
 const platforms = ['twitch', 'youtube', 'instagram', 'tiktok'] as const;
