@@ -170,7 +170,9 @@ bun run preview # preview production build
 
 To enable the bidirectional flow, connect Claude Code to the Figma channel and verify the MCP is active:
 
-[![Connecting to Figma channel and verifying MCP](https://img.youtube.com/vi/2nvKEIDWql8/0.jpg)](https://youtu.be/2nvKEIDWql8)
+**YouTube →** [Connecting to Figma channel and verifying MCP is active](https://youtu.be/2nvKEIDWql8)
+
+[![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://youtu.be/2nvKEIDWql8)
 
 ---
 
@@ -419,7 +421,9 @@ The design existed in Figma first. Before writing any code:
 
 Once the component existed, each code change was manually synced back to Figma via MCP:
 
-▶ [Demo: border-radius change synced from code to Figma](https://youtu.be/eM57ZGMHJTU)
+**YouTube →** [Demo: border-radius change synced from code to Figma](https://youtu.be/eM57ZGMHJTU)
+
+[![YouTube](https://img.shields.io/badge/YouTube-Watch-red?logo=youtube)](https://youtu.be/eM57ZGMHJTU)
 
 | Code change | Figma update |
 |---|---|
