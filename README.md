@@ -1,26 +1,32 @@
-# Claudio+Figma: process to bidirectional skill
+# Claudio+Figma: bidirectional sync workflow
 
-A native Web Component project documenting the full process of building a bidirectional Claude Code ↔ Figma sync workflow — from first iteration to a structured, reusable skill. The component itself is a streamer/influencer profile card built with Shadow DOM, Constructable Stylesheets, and custom events. No framework, no dependencies.
+> A case study on syncing Figma designs ↔ Web Component code using Claude Code + MCP — in both directions, with precision and without burning tokens.
+
+This repo documents a reproducible workflow: how to read a Figma design into code, how to push code changes back into Figma, and how to formalise that process into a reusable Claude skill (`/figma-sync`). The vehicle is a streamer profile card built as a native Web Component — no framework, no dependencies.
+
+**Not a library. Not a tutorial. A protocol that emerged from real failures.**
 
 ## Table of contents
 
+**The workflow**
 - [Demo](#demo)
+- [How the sync works](#bidirectional-flow-claude-code--figma)
+- [`/figma-sync` skill](#figma-sync-skill-bidirectional-flow-with-structure)
+- [Conclusions](#conclusions)
+
+**The component**
 - [Stack](#stack)
-- [Context: from Figma to code without a design system](#context-from-figma-to-code-without-a-design-system)
 - [Components](#components)
 - [`<streamer-card>` attributes](#streamer-card-attributes)
 - [Usage](#usage)
 - [Dev setup](#dev-setup)
-- [Bidirectional flow: Claude Code ↔ Figma](#bidirectional-flow-claude-code--figma)
-  - [Recommended flow: Figma → Code first](#recommended-flow-figma--code-first)
-  - [Use case: sending code structure to Figma](#use-case-sending-code-structure-to-figma)
-  - [Flow optimisation](#flow-optimisation)
-- [Claude interaction lessons](#claude-interaction-lessons)
+
+**The process (deep dives)**
+- [Context: from Figma to code without a design system](#context-from-figma-to-code-without-a-design-system)
 - [Evaluation: bringing the Figma design into code](#evaluation-bringing-the-figma-design-into-code)
 - [Figma → Web Component: Autolayout Flow](#figma--web-component-autolayout-flow)
 - [Bidirectional flow: full cycle recap](#bidirectional-flow-full-cycle-recap)
-- [`/figma-sync` skill: bidirectional flow with structure](#figma-sync-skill-bidirectional-flow-with-structure)
-- [Conclusions](#conclusions)
+- [Claude interaction lessons](#claude-interaction-lessons)
 
 ---
 
@@ -28,7 +34,11 @@ A native Web Component project documenting the full process of building a bidire
 
 **Live →** [claudiofigmabidirectional.netlify.app](https://claudiofigmabidirectional.netlify.app/)
 
+The card below was designed in Figma and implemented in code through a bidirectional sync orchestrated entirely from Claude Code via MCP. The design tokens — colours, spacing, radius — flow in both directions: Figma → code on first build, code → Figma on every subsequent change.
+
 ![Zara Nyx — Figma theme](assets/demo-streamer-figma-theme.jpg)
+
+Three profiles, three swappable themes (Figma, Neon, Ocean), one Web Component. Select a profile in the live demo to see theme switching in action.
 
 ---
 
