@@ -1,6 +1,6 @@
 import { sheet } from './stylesFigma';
 import { platformIcons } from './platform-icons';
-import { StreamerVibe } from './streamer-vibe';
+import { StreamerVibe } from './streamer-vibe/streamer-vibe';
 import { StreamerRating } from './streamer-rating';
 import { StreamerModal } from './streamer-modal';
 
