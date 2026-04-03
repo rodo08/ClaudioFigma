@@ -41,7 +41,7 @@ The card below was designed in Figma and implemented in code through a bidirecti
 
 ![Zara Nyx — Figma theme](assets/demo-streamer-figma-theme.jpg)
 
-Three profiles, three swappable characters (streamer, influencer and pro-gamer), one Web Component. Select a profile in the live demo to see theme switching in action.
+Three profiles, three swappable characters (streamer, influencer and pro-gamer), one Web Component. Select a profile, pick your vibe (❤️ or 💀) and rate their content (Meh / Ok / Good / Fire) — a modal confirms your vote before submitting.
 
 ---
 
