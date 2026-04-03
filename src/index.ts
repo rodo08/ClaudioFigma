@@ -1,6 +1,6 @@
 import './index.css';
 import './components/streamer-card';
-import { StreamerCard } from './components/streamer-card';
+import { StreamerCard } from './components/streamer-card/streamer-card/streamer-card';
 import { StreamerCardAutolayout } from './components/streamer-card/streamer-card-autolayout/streamer-card-autolayout';
 
 import logo   from './assets/logorod.svg';
@@ -8,9 +8,9 @@ import img1   from './assets/img1.webp';
 import img2   from './assets/img2.webp';
 import img3   from './assets/img3.webp';
 
-import { sheet as figmaSheet } from './components/streamer-card/stylesFigma';
-import { sheet as neonSheet  } from './components/streamer-card/stylesNeon';
-import { sheet as oceanSheet } from './components/streamer-card/stylesOcean';
+import { sheet as figmaSheet } from './components/streamer-card/streamer-card/styles/stylesFigma';
+import { sheet as neonSheet  } from './components/streamer-card/streamer-card/styles/stylesNeon';
+import { sheet as oceanSheet } from './components/streamer-card/streamer-card/styles/stylesOcean';
 
 const streamers = [
   {
