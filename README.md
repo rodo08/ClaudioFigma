@@ -2,7 +2,7 @@
 
 > A case study on syncing Figma designs ↔ Web Component code using Claude Code + MCP — in both directions, with precision and without burning tokens.
 
-This repo documents a reproducible workflow: how to read a Figma design into code, how to push code changes back into Figma, and how to formalise that process into a reusable Claude skill (`/figma-sync`). The vehicle is a streamer profile card built as a native Web Component — no framework, no dependencies.
+This repo documents a reproducible workflow: how to read a Figma design into code, how to push code changes back into Figma, and how to formalise that process into a reusable Claude skill (`/figma-sync`). The vehicle is a streamer profile card built as a native Web Component — no framework, no dependencies. This project runs only on desktop for now.
 
 **Not a library. Not a tutorial. A protocol that emerged from real failures.**
 
