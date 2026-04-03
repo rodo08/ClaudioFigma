@@ -1,6 +1,6 @@
-# Streamer Card — Web Component
+# Claudio+Figma: process to bidirectional skill
 
-A streamer/influencer profile card built as a native Web Component with Shadow DOM, Constructable Stylesheets, and custom events. No framework, no dependencies.
+A native Web Component project documenting the full process of building a bidirectional Claude Code ↔ Figma sync workflow — from first iteration to a structured, reusable skill. The component itself is a streamer/influencer profile card built with Shadow DOM, Constructable Stylesheets, and custom events. No framework, no dependencies.
 
 ## Table of contents
 
@@ -16,8 +16,11 @@ A streamer/influencer profile card built as a native Web Component with Shadow D
   - [Use case: sending code structure to Figma](#use-case-sending-code-structure-to-figma)
   - [Flow optimisation](#flow-optimisation)
 - [Claude interaction lessons](#claude-interaction-lessons)
-- [Conclusions](#conclusions)
 - [Evaluation: bringing the Figma design into code](#evaluation-bringing-the-figma-design-into-code)
+- [Figma → Web Component: Autolayout Flow](#figma--web-component-autolayout-flow)
+- [Bidirectional flow: full cycle recap](#bidirectional-flow-full-cycle-recap)
+- [`/figma-sync` skill: bidirectional flow with structure](#figma-sync-skill-bidirectional-flow-with-structure)
+- [Conclusions](#conclusions)
 
 ---
 
@@ -311,60 +314,36 @@ Without this, Claude will guess the direction and will often guess wrong.
 
 ---
 
-## Conclusions
-
-The Code → Figma flow fails when a code change has no unambiguous Figma node to point to. Synchronisation is only predictable when the change affects a **variable with a matching name** or a **node identifiable by file and line**.
-
----
-
 ## Evaluation: bringing the Figma design into code
 
-To synchronise the Figma design with this Web Component while maintaining all its functionality, changes are concentrated exclusively in the **visual layer**. The logic (Custom Events, attributes, Shadow DOM, interaction flow) is not touched.
+Before writing any component code, the Figma design was analysed to determine what could be translated with precision and what would require manual judgment. This evaluation shaped the entire implementation strategy.
 
-### What does not change
+### Key finding: only the visual layer needed to change
 
-| File                                           | Reason                                                                                          |
-| ---------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `streamer-card.ts` — event logic               | The `vibe-change`, `rating-change`, `vote-submitted` orchestration is independent of the design |
-| `streamer-vibe.ts` — HTML structure and events | The `<input type="radio">` elements and the `vibe-change` event are pure logic                  |
-| `streamer-rating.ts` — structure and events    | The `ratings` array (values) and the `rating-change` event are not visual                       |
-| `streamer-modal.ts` — structure and events     | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style                         |
-| `index.ts` — bootstrap                         | The programmatic instantiation of the component does not change                                 |
+The component logic — Custom Events, Shadow DOM structure, interaction flow — was completely independent of the design. All synchronisation work was concentrated on the CSS layer only.
 
-### What changes
+| File | Status | Reason |
+| ---- | ------ | ------ |
+| `streamer-card.ts` — event logic | unchanged | `vibe-change`, `rating-change`, `vote-submitted` orchestration is design-independent |
+| `streamer-vibe.ts` — HTML + events | unchanged | `<input type="radio">` elements and `vibe-change` event are pure logic |
+| `streamer-rating.ts` — structure + events | unchanged | `ratings` array values and `rating-change` event are not visual |
+| `streamer-modal.ts` — structure + events | unchanged | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style |
+| `index.ts` — bootstrap | unchanged | programmatic instantiation is design-independent |
 
-**`src/components/streamer-card/styles.ts`** — The main file to update. All hardcoded values (`#1a1a1a`, `#eee`, `30px`, `370px`, `#ff623f`, `#00a6ed`) must be replaced with Figma tokens:
+### Where hardcoded values were found
 
-- `--background-color`: card background colour
-- `--text-color`: primary text colour
-- `--border-radius`: global border radius
-- Badge colours (`popular`, `new`): bottom shadow on `.more`
-- Card width (`.card { width }`)
+The evaluation identified four files with values that needed to match Figma tokens:
 
-**`streamer-vibe.ts` — CSS section** — Vibe button colours are hardcoded:
+- **`styles.ts`** — card background (`#1a1a1a`), text colour (`#eee`), border radius (`30px`), card width (`370px`), badge colours — all replaced with CSS custom properties
+- **`streamer-vibe.ts`** — vibe button colours (`#f472b6`, `#6b7280`) and dimensions (40×40px) — extracted as tokens
+- **`streamer-rating.ts`** — rating dot colours defined in the `ratings` data array, matched against Figma values per level
+- **`streamer-modal.ts`** — submit button colour (`#f472b6`) and modal backgrounds (`#1a1a1a`, `#242424`)
 
-- `#f472b6` (vote-up hover/checked)
-- `#6b7280` (vote-down hover/checked)
-- Button dimensions (40px × 40px)
+### What made future syncs predictable
 
-**`streamer-rating.ts` — `ratings` array** — Rating dot colours are in the data array:
+The decision to use **CSS custom properties as the synchronisation bridge** was the critical structural choice. One token in `:host` maps to one variable in Figma — so any future Figma change translates to updating a single block of variables, without touching individual selectors across files.
 
-```ts
-{ value: 'meh',  color: '#323232', glowColor: 'rgba(255,255,255,0.7)' },
-{ value: 'ok',   color: '#ffdd66' },
-{ value: 'good', color: '#ffa666' },
-{ value: 'fire', color: '#fe6969' },
-```
-
-These colours must match what Figma defines for each rating level.
-
-**`streamer-modal.ts` — CSS section** — Submit button colour (`#f472b6`) and modal background (`#1a1a1a`, `#242424`).
-
-**`src/index.css`** — Page background (currently white with grid pattern). If Figma defines a different background for the canvas/page, this file reflects it.
-
-### Synchronisation strategy
-
-The bridge between Figma and code is **CSS custom properties**. The component already uses `--background-color`, `--text-color` and `--border-radius` in `:host`. To simplify future synchronisations, it is worth expanding that system to cover all colour and spacing tokens — so a Figma change translates to updating a single block of variables in `:host`, without touching rules for each individual selector.
+This evaluation was not just diagnostic. It defined the architecture that made the bidirectional flow possible.
 
 ---
 
@@ -542,3 +521,11 @@ The reason: the change was well-scoped (file + lines + what changed) and Figma n
 ### The synthesis
 
 > Bidirectionality is not "Figma and code always identical". It is knowing **what can live on each side, in which direction each change flows, and how to document what cannot cross**. The skill enforces exactly that.
+
+---
+
+## Conclusions
+
+The Code → Figma flow fails when a code change has no unambiguous Figma node to point to. Synchronisation is only predictable when the change affects a **variable with a matching name** or a **node identifiable by file and line**.
+
+The `/figma-sync` skill is the distillation of everything learned across this project — from the failed first iteration to the structured protocol that made precise, repeatable sync possible.
