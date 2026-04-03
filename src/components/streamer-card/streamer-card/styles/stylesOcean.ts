@@ -131,7 +131,7 @@ const css = `
   .card .info .stat-label {
     font-size: 10px;
     font-weight: 300;
-    color: #888;
+    color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }

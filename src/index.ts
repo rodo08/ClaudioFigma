@@ -1,16 +1,11 @@
 import './index.css';
 import './components/streamer-card';
-import { StreamerCard } from './components/streamer-card/streamer-card/streamer-card';
 import { StreamerCardAutolayout } from './components/streamer-card/streamer-card-autolayout/streamer-card-autolayout';
 
 import logo from './assets/logorod.svg';
 import img1 from './assets/img1.webp';
 import img2 from './assets/img2.webp';
 import img3 from './assets/img3.webp';
-
-import { sheet as figmaSheet } from './components/streamer-card/streamer-card/styles/stylesFigma';
-import { sheet as neonSheet } from './components/streamer-card/streamer-card/styles/stylesNeon';
-import { sheet as oceanSheet } from './components/streamer-card/streamer-card/styles/stylesOcean';
 
 const streamers = [
   {
@@ -22,7 +17,6 @@ const streamers = [
     youtube: '234K',
     instagram: '112K',
     tiktok: '891K',
-    sheet: figmaSheet,
   },
   {
     name: 'Nova Ray',
@@ -33,7 +27,6 @@ const streamers = [
     youtube: '158K',
     instagram: '220K',
     tiktok: '1.2M',
-    sheet: neonSheet,
   },
   {
     name: 'Axel Cruz',
@@ -44,18 +37,10 @@ const streamers = [
     youtube: '780K',
     instagram: '445K',
     tiktok: '2.1M',
-    sheet: oceanSheet,
   },
 ];
 
 const root = document.querySelector('#root')!;
-
-const card = document.createElement('streamer-card') as StreamerCard;
-card.addEventListener('vote-submitted', (e) => {
-  const { vibe, rating } = (e as CustomEvent).detail;
-  console.log('Vote submitted:', { vibe, rating });
-});
-// root.appendChild(card);
 
 const cardAutolayout = document.createElement('streamer-card-autolayout') as StreamerCardAutolayout;
 cardAutolayout.addEventListener('vote-submitted', (e) => {
@@ -96,17 +81,6 @@ navButtons.className = 'nav-buttons';
 
 function loadStreamer(index: number) {
   const s = streamers[index];
-
-  card.setSheet(s.sheet);
-  card.setAttribute('name', s.name);
-  card.setAttribute('channel', s.channel);
-  card.setAttribute('logo', logo);
-  card.setAttribute('avatar', s.avatar);
-  card.setAttribute('badge', s.badge);
-  card.setAttribute('twitch', s.twitch);
-  card.setAttribute('youtube', s.youtube);
-  card.setAttribute('instagram', s.instagram);
-  card.setAttribute('tiktok', s.tiktok);
 
   cardAutolayout.setAttribute('name', s.name);
   cardAutolayout.setAttribute('channel', s.channel);
