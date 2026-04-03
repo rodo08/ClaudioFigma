@@ -36,6 +36,7 @@ A native Web Component project documenting the full process of building a bidire
 - **Constructable Stylesheets** — `new CSSStyleSheet()` / `adoptedStyleSheets`
 - **TypeScript**
 - **Rspack** — bundler with HMR
+- **[claude-talk-to-figma-mcp](https://github.com/arinspunk/claude-talk-to-figma-mcp)** — MCP server enabling Claude Code to read and write Figma via WebSocket. All bidirectional sync in this project runs on top of this — credit goes entirely to [@arinspunk](https://github.com/arinspunk) and contributors.
 
 ---
 
