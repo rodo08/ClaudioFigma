@@ -9,12 +9,14 @@ This repo documents a reproducible workflow: how to read a Figma design into cod
 ## Table of contents
 
 **The workflow**
+
 - [Demo](#demo)
 - [How the sync works](#bidirectional-flow-claude-code--figma)
 - [`/figma-sync` skill](#figma-sync-skill-bidirectional-flow-with-structure)
 - [Conclusions](#conclusions)
 
 **The component**
+
 - [Stack](#stack)
 - [Components](#components)
 - [`<streamer-card>` attributes](#streamer-card-attributes)
@@ -22,6 +24,7 @@ This repo documents a reproducible workflow: how to read a Figma design into cod
 - [Dev setup](#dev-setup)
 
 **The process (deep dives)**
+
 - [Context: from Figma to code without a design system](#context-from-figma-to-code-without-a-design-system)
 - [Evaluation: bringing the Figma design into code](#evaluation-bringing-the-figma-design-into-code)
 - [Figma → Web Component: Autolayout Flow](#figma--web-component-autolayout-flow)
@@ -38,7 +41,7 @@ The card below was designed in Figma and implemented in code through a bidirecti
 
 ![Zara Nyx — Figma theme](assets/demo-streamer-figma-theme.jpg)
 
-Three profiles, three swappable themes (Figma, Neon, Ocean), one Web Component. Select a profile in the live demo to see theme switching in action.
+Three profiles, three swappable characters (streamer, influencer and pro-gamer), one Web Component. Select a profile in the live demo to see theme switching in action.
 
 ---
 
@@ -335,13 +338,13 @@ Before writing any component code, the Figma design was analysed to determine wh
 
 The component logic — Custom Events, Shadow DOM structure, interaction flow — was completely independent of the design. All synchronisation work was concentrated on the CSS layer only.
 
-| File | Status | Reason |
-| ---- | ------ | ------ |
-| `streamer-card.ts` — event logic | unchanged | `vibe-change`, `rating-change`, `vote-submitted` orchestration is design-independent |
-| `streamer-vibe.ts` — HTML + events | unchanged | `<input type="radio">` elements and `vibe-change` event are pure logic |
-| `streamer-rating.ts` — structure + events | unchanged | `ratings` array values and `rating-change` event are not visual |
-| `streamer-modal.ts` — structure + events | unchanged | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style |
-| `index.ts` — bootstrap | unchanged | programmatic instantiation is design-independent |
+| File                                      | Status    | Reason                                                                               |
+| ----------------------------------------- | --------- | ------------------------------------------------------------------------------------ |
+| `streamer-card.ts` — event logic          | unchanged | `vibe-change`, `rating-change`, `vote-submitted` orchestration is design-independent |
+| `streamer-vibe.ts` — HTML + events        | unchanged | `<input type="radio">` elements and `vibe-change` event are pure logic               |
+| `streamer-rating.ts` — structure + events | unchanged | `ratings` array values and `rating-change` event are not visual                      |
+| `streamer-modal.ts` — structure + events  | unchanged | `show()`, `hide()`, `vote-submit`, `vote-cancel` do not depend on style              |
+| `index.ts` — bootstrap                    | unchanged | programmatic instantiation is design-independent                                     |
 
 ### Where hardcoded values were found
 
