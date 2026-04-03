@@ -53,10 +53,7 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [
-    new rspack.HtmlRspackPlugin({ template: './index.html' }),
-    new rspack.CopyRspackPlugin({ patterns: [{ from: 'public', to: '.' }] }),
-  ],
+  plugins: [new rspack.HtmlRspackPlugin({ template: './index.html' })],
   optimization: {
     minimizer: [
       new rspack.SwcJsMinimizerRspackPlugin(),
