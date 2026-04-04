@@ -66,15 +66,6 @@ navSubtitle.className = 'nav-subtitle';
 navSubtitle.textContent = 'bidirectional flow';
 navHeader.appendChild(navSubtitle);
 
-nav.appendChild(navHeader);
-
-// — bloque descripción
-const navDesc = document.createElement('div');
-navDesc.className = 'nav-desc';
-navDesc.textContent =
-  'Native Web Components with bidirectional Figma ↔ code flow. Design tokens as CSS custom properties, swappable themes with Constructable Stylesheets and Shadow DOM — orchestrated from Claude Code. Select a profile to explore.';
-nav.appendChild(navDesc);
-
 // — bloque botones
 const navButtons = document.createElement('div');
 navButtons.className = 'nav-buttons';
@@ -106,6 +97,14 @@ streamers.forEach((s, i) => {
 });
 
 nav.appendChild(navButtons);
+nav.appendChild(navHeader);
+
+// — bloque descripción
+const navDesc = document.createElement('div');
+navDesc.className = 'nav-desc';
+navDesc.textContent =
+  'Native Web Components with bidirectional Figma ↔ code flow. Design tokens as CSS custom properties, swappable themes with Constructable Stylesheets and Shadow DOM — orchestrated from Claude Code. Select a profile to explore.';
+nav.appendChild(navDesc);
 
 root.appendChild(nav);
 loadStreamer(0);
