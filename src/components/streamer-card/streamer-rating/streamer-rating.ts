@@ -140,7 +140,7 @@ export class StreamerRating extends HTMLElement {
       .join('');
 
     this.shadow.innerHTML = `
-      <span class="label">Rate her content</span>
+      <span class="label">Rate the content</span>
       <ul>${items}</ul>
     `;
 
